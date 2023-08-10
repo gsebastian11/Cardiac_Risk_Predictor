@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 import joblib as jl
 import matplotlib.pyplot as plt 
@@ -82,28 +82,50 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.fit_transform(X_test)
 
 
-# Logistic Regression Classifier
-log_reg = LogisticRegression()
-log_reg.fit(X_train, y_train)
+# KNN Classifier
+knn = KNeighborsClassifier()
+knn.fit(X_train, y_train)
 
 
 # Predict
-y_pred = log_reg.predict(X_test)
+y_pred = knn.predict(X_test)
 
 # Check Accuracy
 accuracy = accuracy_score(y_test,y_pred)
-print(f"Accuracy Score for Logistic Regression Model :  {accuracy}")
+print(f"Accuracy Score for KNN Model :  {accuracy}")
+
+
+## Providing "K" different values 
+score = []
+
+for k in range(1,40):
+    knn=KNeighborsClassifier(n_neighbors=k)
+    knn.fit(X_train,y_train)
+    y_pred2=knn.predict(X_test)
+    score.append(accuracy_score(y_test,y_pred2))
+
+print(f"Accuracy Scores for different values of K :  {score}")
+
+## When k = "28" the accuracy is more , so k=28 is selected 
+k = 28
+knn=KNeighborsClassifier(n_neighbors = 28)
+knn.fit(X_train,y_train)
+Y_pred2=knn.predict(X_test)
+accuracy1 = accuracy_score(y_test,y_pred2)
+
+print(f"Accuracy Score for KNN Model for {k}:  {accuracy1}")
+
 
 # Save Model
-jl.dump(log_reg, 'log_reg_model.pkl')
+jl.dump(knn, 'knn_model.pkl')
 print("Model saved")
 
 # Save Scaler
-with open('log_reg_scaler.pkl', 'wb') as scaler_file:
+with open('knn_scaler.pkl', 'wb') as scaler_file:
     pkl.dump(scaler, scaler_file)
 print("Scaler saved")
 
 # Save the data columns from training set
 model_columns = list(X.columns)
-jl.dump(model_columns, 'log_reg_model_columns.pkl')
+jl.dump(model_columns, 'knn_model_columns.pkl')
 print("Model columns saved")

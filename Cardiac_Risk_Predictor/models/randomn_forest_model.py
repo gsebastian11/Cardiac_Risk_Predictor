@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import joblib as jl
 import matplotlib.pyplot as plt 
@@ -71,9 +71,8 @@ dependent_value = 'target'
 X = heart_df.drop(dependent_value,axis=1)
 y = heart_df[dependent_value]
 
-
 # Train test split
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.33,random_state=101)
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.33,random_state=42)
 
 
 # Standardize the features for better model performance
@@ -82,28 +81,28 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.fit_transform(X_test)
 
 
-# Logistic Regression Classifier
-log_reg = LogisticRegression()
-log_reg.fit(X_train, y_train)
+# Randomn Forest Classifier
+rf = RandomForestClassifier()
+rf.fit(X_train, y_train)
 
 
 # Predict
-y_pred = log_reg.predict(X_test)
+y_pred = rf.predict(X_test)
 
 # Check Accuracy
 accuracy = accuracy_score(y_test,y_pred)
-print(f"Accuracy Score for Logistic Regression Model :  {accuracy}")
+print(f"Accuracy Score for Random Forest Model :  {accuracy}")
 
 # Save Model
-jl.dump(log_reg, 'log_reg_model.pkl')
+jl.dump(rf, 'rndm_forest_model.pkl')
 print("Model saved")
 
 # Save Scaler
-with open('log_reg_scaler.pkl', 'wb') as scaler_file:
+with open('rndm_forest_scaler.pkl', 'wb') as scaler_file:
     pkl.dump(scaler, scaler_file)
 print("Scaler saved")
 
 # Save the data columns from training set
 model_columns = list(X.columns)
-jl.dump(model_columns, 'log_reg_model_columns.pkl')
+jl.dump(model_columns, 'rndm_forest_model_columns.pkl')
 print("Model columns saved")
