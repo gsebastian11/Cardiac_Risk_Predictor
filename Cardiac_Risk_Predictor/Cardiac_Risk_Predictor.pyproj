@@ -16,6 +16,9 @@
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
     <Name>Cardiac_Risk_Predictor</Name>
     <RootNamespace>Cardiac_Risk_Predictor</RootNamespace>
+    <TestFramework>pytest</TestFramework>
+    <UnitTestPattern>test*.py</UnitTestPattern>
+    <UnitTestRootDirectory>.</UnitTestRootDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +34,7 @@
     <Compile Include="models\decision_tree_model.py" />
     <Compile Include="models\knn_model.py" />
     <Compile Include="models\logistic_regression_model.py" />
+    <Compile Include="test_app.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="dataset\heart.csv" />
