@@ -26,6 +26,12 @@ with open('log_reg_scaler.pkl', 'rb') as f:
 def index():
     return redirect('/swagger', code=302)
 
+# Health check endpoint
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy'})
+
+# Prediction endpoint
 @app.route('/predict', methods=[ 'POST'])
 def predict():
         """

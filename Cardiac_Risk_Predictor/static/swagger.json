@@ -53,6 +53,25 @@
           }
         }
       }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health check endpoint",
+        "responses": {
+          "200": {
+            "description": "Healthy status",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "Health status"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
